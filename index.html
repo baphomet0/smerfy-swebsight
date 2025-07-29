@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smurfy - Rainbow Six Siege Streamer</title>
+    <meta name="description" content="Professional Smurf-themed Twitch streamer website for Rainbow Six Siege content with live status, clips, and social links">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Gaming Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        .glassmorphism {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .live-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            2% { transform: translate(-2px, 1px); }
+            4% { transform: translate(-1px, -1px); }
+            6% { transform: translate(1px, 1px); }
+            8% { transform: translate(1px, -1px); }
+            10% { transform: translate(-1px, 1px); }
+            12% { transform: translate(-1px, -1px); }
+            14% { transform: translate(0); }
+            100% { transform: translate(0); }
+        }
+        
+        @keyframes textGlitch {
+            0% { text-shadow: 0 0 0 transparent; }
+            2% { text-shadow: 2px 0 0 #ff00ff, -2px 0 0 #00ffff; }
+            4% { text-shadow: -1px 0 0 #ff00ff, 1px 0 0 #00ffff; }
+            6% { text-shadow: 1px 0 0 #ff00ff, -1px 0 0 #00ffff; }
+            8% { text-shadow: -2px 0 0 #ff00ff, 2px 0 0 #00ffff; }
+            10% { text-shadow: 0 0 0 transparent; }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+        
+        .glitch-title {
+            animation: textGlitch 3s infinite;
+        }
+        
+        .glitch-container {
+            animation: glitch 4s infinite;
+        }
+        
+        .smurf-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 20%, #1e3a8a 40%, #2563eb 60%, #3b82f6 80%, #60a5fa 100%);
+            min-height: 100vh;
+        }
+        
+        body {
+            background-color: #1e3a8a;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+        }
+        
+        .gaming-title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .gaming-header {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .gaming-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-tab {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white font-sans overflow-x-hidden">
+    <div id="app" class="min-h-screen smurf-gradient">
+        <!-- Navigation Bar -->
+        <nav class="relative z-20 bg-black/60 glassmorphism border-b border-white/20">
+            <div class="max-w-6xl mx-auto px-4 py-4">
+                <div class="flex justify-center gap-2">
+                    <button onclick="showSection('home')" class="nav-tab active px-6 py-3 rounded-xl gaming-text font-bold bg-blue-600 text-white" id="home-tab">
+                        HOME
+                    </button>
+                    <button onclick="showSection('about')" class="nav-tab px-6 py-3 rounded-xl gaming-text font-bold text-white bg-white/10" id="about-tab">
+                        ABOUT ME
+                    </button>
+                    <button onclick="showSection('merch')" class="nav-tab px-6 py-3 rounded-xl gaming-text font-bold text-white bg-white/10" id="merch-tab">
+                        MERCHANDISE
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HOME Section -->
+        <div id="home-section" class="section active">
+            <!-- Header -->
+            <header class="relative z-10 text-center py-16">
+                <div class="bg-black/40 glassmorphism rounded-3xl p-8 mx-auto max-w-2xl border border-white/20 mx-4 glitch-container">
+                    <h1 class="text-6xl md:text-7xl font-bold drop-shadow-2xl text-yellow-300 mb-4 glitch-title gaming-title">Smurfy</h1>
+                    <p class="text-xl text-blue-100 mb-4 gaming-text">Rainbow Six Siege streamer with a smurfed-out twist</p>
+                    <div class="flex justify-center items-center gap-2 bg-black/30 rounded-full px-4 py-2 mx-auto w-fit">
+                        <div class="w-3 h-3 rounded-full bg-gray-400" id="liveIndicator"></div>
+                        <span class="text-gray-400" id="liveStatus">Checking status...</span>
+                    </div>
+                </div>
+            </header>
+
+        <!-- Content overlay for better readability -->
+        <div class="absolute inset-0 bg-black/30 pointer-events-none"></div>
+        
+        <main class="relative z-10 max-w-4xl mx-auto px-4 pb-12">
+            
+            <!-- Featured Clips -->
+            <section class="mb-12">
+                <div class="bg-blue-500/60 glassmorphism rounded-3xl p-8 shadow-2xl border border-white/20">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-8 h-8 bg-yellow-300 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white gaming-header">Featured Clips</h2>
+                    </div>
+                    
+                    <div class="grid gap-8 md:grid-cols-2">
+                        <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300 glitch-container">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold mb-4 text-yellow-300 gaming-text">Epic 1v5 Clutch</h3>
+                                <div class="aspect-video rounded-xl overflow-hidden shadow-lg bg-gray-800 flex items-center justify-center">
+                                    <p class="text-gray-400">Twitch Clip Embed</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300 glitch-container">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold mb-4 text-yellow-300 gaming-text">Ace with Ash</h3>
+                                <div class="aspect-video rounded-xl overflow-hidden shadow-lg bg-gray-800 flex items-center justify-center">
+                                    <p class="text-gray-400">Twitch Clip Embed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid gap-8 md:grid-cols-2">
+                <!-- Social Links -->
+                <section class="bg-blue-400/50 glassmorphism rounded-3xl p-8 shadow-2xl border border-white/20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-yellow-300 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white gaming-header">Connect with Smurfy</h2>
+                    </div>
+                    
+                    <div class="flex flex-col gap-4">
+                        <a href="https://www.twitch.tv/the_smurfy_" target="_blank" rel="noopener noreferrer">
+                            <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1 gaming-text">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
+                                </svg>
+                                Follow on Twitch
+                            </button>
+                        </a>
+                        
+                        <a href="https://x.com/the_smurfy_" target="_blank" rel="noopener noreferrer">
+                            <button class="w-full bg-black hover:bg-gray-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1 gaming-text">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                                Follow on X
+                            </button>
+                        </a>
+                        
+                        <a href="https://discord.gg/smurfy" target="_blank" rel="noopener noreferrer">
+                            <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1 gaming-text">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0002 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9554 2.4189-2.1568 2.4189Z"/>
+                                </svg>
+                                Join Discord
+                            </button>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Stream Schedule -->
+                <section class="bg-blue-300/40 glassmorphism rounded-3xl p-8 shadow-2xl border border-white/20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-yellow-300 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white gaming-header">Stream Schedule</h2>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-white/10 rounded-xl border border-white/20">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-yellow-300"></div>
+                                <span class="font-semibold text-white gaming-text">Monday</span>
+                            </div>
+                            <span class="text-blue-200 gaming-text">6 PM – 10 PM PST</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-4 bg-white/10 rounded-xl border border-white/20">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-yellow-300"></div>
+                                <span class="font-semibold text-white gaming-text">Wednesday</span>
+                            </div>
+                            <span class="text-blue-200 gaming-text">6 PM – 10 PM PST</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-4 bg-white/10 rounded-xl border border-white/20">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-green-400 live-pulse"></div>
+                                <span class="font-semibold text-white gaming-text">Friday</span>
+                            </div>
+                            <span class="text-blue-200 gaming-text">6 PM – 12 AM PST</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-4 bg-white/10 rounded-xl border border-white/20">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-yellow-300"></div>
+                                <span class="font-semibold text-white gaming-text">Sunday</span>
+                            </div>
+                            <span class="text-blue-200 gaming-text">2 PM – 6 PM PST</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        </div>
+
+        <!-- ABOUT ME Section -->
+        <div id="about-section" class="section">
+            <div class="relative z-10 max-w-4xl mx-auto px-4 py-16">
+                <div class="bg-black/40 glassmorphism rounded-3xl p-8 shadow-2xl border border-white/20 glitch-container">
+                    <h1 class="text-5xl font-bold text-yellow-300 mb-8 text-center gaming-title">About Smurfy</h1>
+                    
+                    <div class="grid gap-8 md:grid-cols-2">
+                        <div class="bg-white/10 glassmorphism rounded-2xl p-6 border border-white/20">
+                            <h3 class="text-2xl font-bold text-white mb-4 gaming-header">Gaming Background</h3>
+                            <div class="space-y-4 gaming-text text-blue-100">
+                                <p>Professional Rainbow Six Siege player with over 5 years of competitive experience.</p>
+                                <p>Specializing in aggressive entry fragging and tactical gameplay that keeps viewers on the edge of their seats.</p>
+                                <p>Known for clutch plays and innovative strategies that have earned recognition in the R6 community.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white/10 glassmorphism rounded-2xl p-6 border border-white/20">
+                            <h3 class="text-2xl font-bold text-white mb-4 gaming-header">Streaming Journey</h3>
+                            <div class="space-y-4 gaming-text text-blue-100">
+                                <p>Started streaming in 2020 with a passion for competitive gaming and community building.</p>
+                                <p>Focus on educational content, gameplay breakdowns, and interactive viewer experiences.</p>
+                                <p>Building a positive gaming community where skill development and fun go hand in hand.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 bg-white/10 glassmorphism rounded-2xl p-6 border border-white/20">
+                        <h3 class="text-2xl font-bold text-white mb-4 gaming-header text-center">Stats & Achievements</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div class="bg-black/30 rounded-xl p-4">
+                                <div class="text-3xl font-bold text-yellow-300 gaming-title">5+</div>
+                                <div class="text-sm text-blue-200 gaming-text">Years Gaming</div>
+                            </div>
+                            <div class="bg-black/30 rounded-xl p-4">
+                                <div class="text-3xl font-bold text-yellow-300 gaming-title">Diamond</div>
+                                <div class="text-sm text-blue-200 gaming-text">Peak Rank</div>
+                            </div>
+                            <div class="bg-black/30 rounded-xl p-4">
+                                <div class="text-3xl font-bold text-yellow-300 gaming-title">500+</div>
+                                <div class="text-sm text-blue-200 gaming-text">Followers</div>
+                            </div>
+                            <div class="bg-black/30 rounded-xl p-4">
+                                <div class="text-3xl font-bold text-yellow-300 gaming-title">24/7</div>
+                                <div class="text-sm text-blue-200 gaming-text">Dedication</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MERCHANDISE Section -->
+        <div id="merch-section" class="section">
+            <div class="relative z-10 max-w-6xl mx-auto px-4 py-16">
+                <div class="bg-black/40 glassmorphism rounded-3xl p-8 shadow-2xl border border-white/20">
+                    <h1 class="text-5xl font-bold text-yellow-300 mb-8 text-center gaming-title">Smurfy Merchandise</h1>
+                    
+                    <!-- Plushies Section -->
+                    <div class="mb-12">
+                        <h2 class="text-3xl font-bold text-white mb-6 gaming-header">Plushies</h2>
+                        <div class="grid gap-6 md:grid-cols-3">
+                            <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <div class="aspect-square bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
+                                    <div class="text-6xl">🧸</div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-yellow-300 mb-2 gaming-text">Smurfy Plushie</h3>
+                                    <p class="text-blue-200 mb-4 gaming-text">Soft and cuddly Smurf-themed plushie perfect for any gaming setup.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-2xl font-bold text-white gaming-title">$25</span>
+                                        <button class="bg-yellow-300 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg gaming-text transition-all duration-300">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <div class="aspect-square bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center">
+                                    <div class="text-6xl">🎮</div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-yellow-300 mb-2 gaming-text">Gaming Buddy Plushie</h3>
+                                    <p class="text-blue-200 mb-4 gaming-text">Limited edition gaming-themed plushie with R6 accessories.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-2xl font-bold text-white gaming-title">$35</span>
+                                        <button class="bg-yellow-300 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg gaming-text transition-all duration-300">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <div class="aspect-square bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                    <div class="text-6xl">🎯</div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-yellow-300 mb-2 gaming-text">Tactical Smurfy</h3>
+                                    <p class="text-blue-200 mb-4 gaming-text">Combat-ready plushie with tactical gear and Rainbow Six theme.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-2xl font-bold text-white gaming-title">$40</span>
+                                        <button class="bg-yellow-300 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg gaming-text transition-all duration-300">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- T-Shirts Section -->
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-6 gaming-header">T-Shirts</h2>
+                        <div class="grid gap-6 md:grid-cols-3">
+                            <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <div class="aspect-square bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center">
+                                    <div class="text-6xl">👕</div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-yellow-300 mb-2 gaming-text">Smurfy Logo Tee</h3>
+                                    <p class="text-blue-200 mb-4 gaming-text">Premium cotton t-shirt with the iconic Smurfy logo design.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-2xl font-bold text-white gaming-title">$30</span>
+                                        <button class="bg-yellow-300 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg gaming-text transition-all duration-300">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <div class="aspect-square bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                                    <div class="text-6xl">🎪</div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-yellow-300 mb-2 gaming-text">R6 Tactical Shirt</h3>
+                                    <p class="text-blue-200 mb-4 gaming-text">Rainbow Six Siege inspired design with tactical graphics.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-2xl font-bold text-white gaming-title">$35</span>
+                                        <button class="bg-yellow-300 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg gaming-text transition-all duration-300">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/10 glassmorphism rounded-2xl overflow-hidden shadow-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+                                <div class="aspect-square bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center">
+                                    <div class="text-6xl">⚡</div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-yellow-300 mb-2 gaming-text">Glitch Effect Tee</h3>
+                                    <p class="text-blue-200 mb-4 gaming-text">Limited edition shirt with digital glitch art design.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-2xl font-bold text-white gaming-title">$40</span>
+                                        <button class="bg-yellow-300 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg gaming-text transition-all duration-300">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="relative z-10 text-center mt-10 px-4">
+            <div class="bg-black/40 glassmorphism rounded-2xl p-6 mx-auto max-w-4xl border border-white/20">
+                <p class="text-sm text-blue-200 mb-2">© 2025 Smurfy. All rights reserved.</p>
+                <p class="text-xs text-blue-300 leading-relaxed">
+                    This website was created by TheCrimsonFucker. All content on Smurfy is protected by copyright and other intellectual property laws. Unauthorized use, reproduction, or distribution is strictly prohibited.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript for navigation and live status -->
+    <script>
+        // Navigation system
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.classList.add('bg-white/10');
+                tab.classList.remove('bg-blue-600');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
+            
+            // Activate selected tab
+            const activeTab = document.getElementById(sectionName + '-tab');
+            activeTab.classList.add('active');
+            activeTab.classList.remove('bg-white/10');
+            activeTab.classList.add('bg-blue-600');
+        }
+        
+        // Simple live status check (you can enhance this)
+        async function checkLiveStatus() {
+            const indicator = document.getElementById('liveIndicator');
+            const status = document.getElementById('liveStatus');
+            
+            // For now, set to offline. You can add real Twitch API integration here
+            indicator.className = 'w-3 h-3 rounded-full bg-gray-400';
+            status.textContent = 'Offline';
+            status.className = 'text-gray-400';
+        }
+        
+        // Check status on page load
+        document.addEventListener('DOMContentLoaded', checkLiveStatus);
+    </script>
+</body>
+</html>
